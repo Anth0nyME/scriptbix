@@ -42,9 +42,9 @@ Windows 2008 (и R2) не принимает указание **/RI 0** (отключение интервала повтор
 4.1 В фильтрах выбрать группы Хостов, для которых будет действовать режим автоматического обновления (например, "Host group = Мои Сервера Windows")
 4.2 В фильтрах выбрать из шаблона "Template_Zabbix_Agent_Win" ранее созданный триггер устаревания: "Trigger = Template_Zabbix_Agent_Win: Версия Агента Zabbix устарела"
 4.3 В операции добавить Remote command: 
-4.3.1 Простое протоколирование (Steps 1-1): cmd /c "@echo %DATE%,%TIME% Outdated Zabbix Agent detected: {ITEM.LASTVALUE}. Replace with {$ZABBIX_AGENT_VERSION}.>>%windir%\temp\zabbix_updater.log"
-4.3.2 Скачивание архива (Steps 2-2): if "%PROCESSOR_ARCHITECTURE%" equ "AMD64" powershell -ExecutionPolicy Bypass -Command "& {(New-Object Net.WebClient).DownloadFile('https://zbx.domain.com/agents/zau_64.cab', '%windir%\temp\zau_64.cab')}" 
-4.3.4 Установка обновления (Steps 3-3): schtasks /create /TN "ZAU-{$ZABBIX_AGENT_VERSION}" /SC once /ST %time:\~0,8% /ET 15:00:00 /RI 60 /RU SYSTEM /RL HIGHEST /Z /TR "cmd /c taskkill /f /im zabbix_agentd.exe & extrac32 /e %windir%\temp\zau_64.cab /l \"%ProgramFiles%\zabbix~1\\\" /y & net start \"zabbix agent\""
+4.3.1 Простое протоколирование (Steps 1-1): *cmd /c "@echo %DATE%,%TIME% Outdated Zabbix Agent detected: {ITEM.LASTVALUE}. Replace with {$ZABBIX_AGENT_VERSION}.>>%windir%\temp\zabbix_updater.log"*
+4.3.2 Скачивание архива (Steps 2-2): *if "%PROCESSOR_ARCHITECTURE%" equ "AMD64" powershell -ExecutionPolicy Bypass -Command "& {(New-Object Net.WebClient).DownloadFile('https://zbx.domain.com/agents/zau_64.cab', '%windir%\temp\zau_64.cab')}"*
+4.3.4 Установка обновления (Steps 3-3): *schtasks /create /TN "ZAU-{$ZABBIX_AGENT_VERSION}" /SC once /ST %time:\~0,8% /ET 15:00:00 /RI 60 /RU SYSTEM /RL HIGHEST /Z /TR "cmd /c taskkill /f /im zabbix_agentd.exe & extrac32 /e %windir%\temp\zau_64.cab /l \"%ProgramFiles%\zabbix~1\\\" /y & net start \"zabbix agent\""*
 
 Примечание: Если требуется так же обновлять версии 32bit, допустимо создать полный дубликат шагов 3.4.2 (изменить условие детекта битности ОС и поменять название архива) и 3.4.3 (поменять название архива). Дублированные шаги будут выполняться параллельно.
 
