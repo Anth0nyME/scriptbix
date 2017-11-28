@@ -60,9 +60,9 @@ Windows 2008 (и R2) не принимает указание **/RI 0** (отключение интервала повтор
     4.3 ¬ операции добавить Remote command:  
         4.3.1 ѕростое протоколирование (Steps 1-1): *cmd /c "@echo %DATE%,%TIME% Outdated Zabbix Agent detected: {ITEM.LASTVALUE}. Replace with {$ZABBIX_AGENT_VERSION}.>>%windir%\temp\zabbix_updater.log"*  
         4.3.2 —качивание архива (Steps 2-2): *if "%PROCESSOR_ARCHITECTURE%" equ "AMD64" powershell -ExecutionPolicy Bypass -Command "& {(New-Object Net.WebClient).DownloadFile('https://zbx.domain.com/agents/zau_64.cab', '%windir%\temp\zau_64.cab')}"*  
-        4.3.3 ”становка обновлени€ (Steps 3-3): *schtasks /create /TN "ZAU-{$ZABBIX_AGENT_VERSION}" /SC once /ST %time:\~0,8% /ET 15:00:00 /RI 60 /RU SYSTEM /RL HIGHEST /Z /TR "cmd /c taskkill /f /im zabbix_agentd.exe & extrac32 /e %windir%\temp\zau_64.cab /l \"%ProgramFiles%\zabbix~1\\\" /y & net start \"zabbix agent\""*  
+        4.3.3 ”становка обновлени€ (Steps 3-3): *schtasks /create /TN "ZAU-{$ZABBIX_AGENT_VERSION}" /SC once /ST %time:\~0,8% /ET 15:00:00 /RI 60 /RU SYSTEM /RL HIGHEST /Z /TR "cmd /c taskkill /f /im zabbix_agentd.exe & extrac32 /e %windir%\temp\zau_64.cab /l \"%ProgramFiles%\Zabbix Agent\\\" /y & net start \"zabbix agent\""*  
 
-	***ѕримечание:*** ≈сли требуетс€ так же обновл€ть версии 32bit, допустимо создать полный дубликат шагов 4.3.2 (изменить условие детекта битности ќ— и помен€ть название архива) и 4.3.3 (помен€ть название архива). ƒублированные шаги будут выполн€тьс€ параллельно.
+	***ѕримечание:*** ≈сли јгент установлен в другой каталог - измените путь распаковки. ≈сли требуетс€ так же обновл€ть версии 32bit, допустимо создать полный дубликат шагов 4.3.2 (изменить условие детекта битности ќ— и помен€ть название архива) и 4.3.3 (помен€ть название архива). ƒублированные шаги будут выполн€тьс€ параллельно.
 
 **¬ажно:**
 
