@@ -1,6 +1,6 @@
 #!/bin/bash
 # set -x
-# Version 1.1 (01.08.2018)
+# Version 1.1 (02.08.2018)
 # mad@starokashirka.ru
 if [ "$5" = "" ]; then
 clear
@@ -25,8 +25,10 @@ target_str_grep=$(printf '"[0-9]*"\\|>[A-B][0-9]<')
 
 elif [ "$5" = "disk-statistics" ]; then
 string_filter_1='basetype="disk-statistics".*oid="'
-string_filter_2='PROPERTY.name="location"'
+string_filter_2='PROPERTY.name="durable-id"'
 target_str_grep=$(printf '[0-9].[0-9]*')
+# target_str_gsub="{gsub(\"[a-z]*_\", \"\"); gsub(\"[a-z]*_0\", \"\"); print}"
+target_str_gsub="{gsub(/[a-z]*_|[a-z]*_0/, \"\"); gsub(\"\\\\\.0\", \".\"); print}"
 
 elif [ "$5" = "disks" ]; then
 string_filter_1='basetype="drives".*oid="'
